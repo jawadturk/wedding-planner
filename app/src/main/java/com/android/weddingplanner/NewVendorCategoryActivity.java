@@ -142,7 +142,7 @@ public class NewVendorCategoryActivity extends BaseActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewVencorsCategory( title,mDownloadUrl);
+                            writeNewVendorsCategory(title, mDownloadUrl);
                         }
 
                         // Finish this Activity, back to the stream
@@ -173,11 +173,11 @@ public class NewVendorCategoryActivity extends BaseActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewVencorsCategory(String title , Uri imageUrl) {
+    private void writeNewVendorsCategory(String title, Uri imageUrl) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("vendors-categories").push().getKey();
-        Vendors_categories post = new Vendors_categories(title,imageUrl.toString());
+        Vendors_categories post = new Vendors_categories(title, imageUrl.toString(), key);
         Map<String, Object> postValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
@@ -233,8 +233,6 @@ public class NewVendorCategoryActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-
-
         // Register receiver for uploads and downloads
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());

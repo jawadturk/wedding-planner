@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.weddingplanner.MainActivity;
@@ -32,6 +33,7 @@ public class MyUploadService extends MyBaseTaskService {
 
     /** Intent Extras **/
     public static final String EXTRA_FILE_URI = "extra_file_uri";
+    public static final String EXTRA_FILE_DIRECTOY_NAME = "extra_directoy_name";
     public static final String EXTRA_DOWNLOAD_URL = "extra_download_url";
 
     // [START declare_ref]
@@ -58,14 +60,16 @@ public class MyUploadService extends MyBaseTaskService {
         Log.d(TAG, "onStartCommand:" + intent + ":" + startId);
         if (ACTION_UPLOAD.equals(intent.getAction())) {
             Uri fileUri = intent.getParcelableExtra(EXTRA_FILE_URI);
-            uploadFromUri(fileUri);
+
+            String directoryName = intent.getStringExtra(EXTRA_FILE_DIRECTOY_NAME);
+            uploadFromUri(fileUri, directoryName);
         }
 
         return START_REDELIVER_INTENT;
     }
 
     // [START upload_from_uri]
-    private void uploadFromUri(final Uri fileUri) {
+    private void uploadFromUri(final Uri fileUri, String directoryName) {
         Log.d(TAG, "uploadFromUri:src:" + fileUri.toString());
 
         // [START_EXCLUDE]
@@ -75,7 +79,11 @@ public class MyUploadService extends MyBaseTaskService {
 
         // [START get_child_ref]
         // Get a reference to store file at photos/<FILENAME>.jpg
-        final StorageReference photoRef = mStorageRef.child("photos")
+        String onlineDirectoryName = "photos";
+        if (!TextUtils.isEmpty(directoryName)) {
+            onlineDirectoryName = directoryName;
+        }
+        final StorageReference photoRef = mStorageRef.child(onlineDirectoryName)
                 .child(fileUri.getLastPathSegment());
         // [END get_child_ref]
 

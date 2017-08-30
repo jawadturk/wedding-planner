@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.android.weddingplanner.AddVendorActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vendor Images"
+        android:padding="10dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/textView_header"
+        android:id="@+id/recyclerView_vendorImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:overScrollMode="never"></android.support.v7.widget.RecyclerView>
+
+    <ScrollView
+        android:layout_above="@+id/frameLayout_save"
+        android:layout_below="@+id/recyclerView_vendorImages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <fr.ganfra.materialspinner.MaterialSpinner
+                android:id="@+id/spinner_vendorsCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="3dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:ms_arrowColor="@color/colorPrimary"
+                app:ms_arrowSize="16dp"
+                app:ms_floatingLabelColor="@color/colorPrimary"
+                app:ms_floatingLabelText="@string/hint_vendor_category"
+                app:ms_highlightColor="@color/colorPrimary"
+                app:ms_hint="@string/hint_vendor_category"
+                app:ms_multiline="true" />
+
+            <EditText
+                android:id="@+id/field_vendorName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:hint="@string/hint_vendor_name"
+                android:inputType="text"
+                android:maxLines="1" />
+
+            <EditText
+                android:id="@+id/field_vendorDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="@string/hint_vedor_details"
+                android:inputType="textMultiLine" />
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+
+
+        android:id="@+id/frameLayout_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:elevation="5dp">
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/text_save"
+            android:theme="@style/button_style" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar_saving"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:elevation="2dp"
+            android:visibility="gone"
+
+            tools:visibility="visible" />
+    </FrameLayout>
+</RelativeLayout>

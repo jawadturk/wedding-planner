@@ -21,4 +21,8 @@
     <string name="progress_uploading">Uploading…</string>
     <string name="upload_success">Upload finished</string>
     <string name="upload_failure">Upload failed</string>
+    <string name="hint_vendor_name">Vendor Name</string>
+    <string name="hint_vedor_details">Vedor Details</string>
+    <string name="hint_vendor_category">Vendor Category</string>
+    <string name="text_save">Save</string>
 </resources>

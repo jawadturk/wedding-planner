@@ -25,7 +25,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-
+    //picasso
+    //image picker
+    
 
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:appcompat-v7:26.0.0'
@@ -36,10 +38,9 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:11.2.0'
     compile 'com.google.firebase:firebase-database:11.2.0'
     compile 'com.google.firebase:firebase-storage:11.2.0'
-    //picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
-    //image picker
     compile 'com.liuguangqiang.ipicker:library:1.0.1'
+    compile 'com.github.ganfra:material-spinner:1.1.1'
 
     testCompile 'junit:junit:4.12'
 }
