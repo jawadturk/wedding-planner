@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,12 +19,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.weddingplanner.adapter.HorizontalImageListSelectorAdapter;
 import com.android.weddingplanner.models.Vendor;
 import com.android.weddingplanner.models.Vendors_categories;
 import com.android.weddingplanner.service.MyUploadService;
 import com.android.weddingplanner.utils.RecyclerTouchListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -337,8 +341,6 @@ public class AddVendorActivity extends AppCompatActivity {
     }
 
     private void writeNewVendorToDataBase(Vendor vendor) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
         String key = mDatabase.child("vendors").push().getKey();
         vendor.vendorId = key;
 
@@ -348,6 +350,12 @@ public class AddVendorActivity extends AppCompatActivity {
         childUpdates.put("/vendors/" + key, vendorValues);
 
 
-        mDatabase.updateChildren(childUpdates);
+        mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                finish();
+                Toast.makeText(AddVendorActivity.this, "Insert Vendor Completed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
