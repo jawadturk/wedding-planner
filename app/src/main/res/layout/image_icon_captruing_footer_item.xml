@@ -21,7 +21,7 @@
         app:cardCornerRadius="5dp"
         app:cardElevation="0dp"
         android:foreground="?attr/selectableItemBackground"
-        card_view:cardBackgroundColor="@color/location_background_color"
+        card_view:cardBackgroundColor="@color/gray_color"
         card_view:contentPadding="0dp">
 
 

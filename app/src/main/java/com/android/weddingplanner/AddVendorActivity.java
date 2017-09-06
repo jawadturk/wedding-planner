@@ -60,6 +60,7 @@ public class AddVendorActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private EditText editText_vendorName;
     private EditText ediText_vendorDetails;
+    private EditText ediText_vendorPlace;
     private ProgressBar progressBar;
     private Button button_save;
     String vendorCategoryId;
@@ -128,6 +129,7 @@ public class AddVendorActivity extends AppCompatActivity {
         });
         ediText_vendorDetails = (EditText) findViewById(R.id.field_vendorDetails);
         editText_vendorName = (EditText) findViewById(R.id.field_vendorName);
+        ediText_vendorPlace = (EditText) findViewById(R.id.field_vendorPlace);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_saving);
         button_save = (Button) findViewById(R.id.button_save);
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +144,9 @@ public class AddVendorActivity extends AppCompatActivity {
                         Vendor vendor = new Vendor();
                         vendor.vendorDescription = ediText_vendorDetails.getText().toString();
                         vendor.vendorName = editText_vendorName.getText().toString();
+                        vendor.vendorPlace = ediText_vendorPlace.getText().toString();
                         vendor.vendorPhotos = uploadedImagesUrls;
+                        vendor.vendorCategoryId = vendorCategoryId;
                         writeNewVendorToDataBase(vendor);
                     }
 
@@ -261,6 +265,12 @@ public class AddVendorActivity extends AppCompatActivity {
         } else {
             ediText_vendorDetails.setError(null);
         }
+        if (TextUtils.isEmpty(ediText_vendorPlace.getText().toString())) {
+            ediText_vendorPlace.setError("Required");
+            result = false;
+        } else {
+            ediText_vendorPlace.setError(null);
+        }
 
         if (TextUtils.isEmpty(vendorCategoryId)) {
             spinner.setError("Required");
@@ -302,7 +312,9 @@ public class AddVendorActivity extends AppCompatActivity {
             Vendor vendor = new Vendor();
             vendor.vendorDescription = ediText_vendorDetails.getText().toString();
             vendor.vendorName = editText_vendorName.getText().toString();
+            vendor.vendorPlace = ediText_vendorPlace.getText().toString();
             vendor.vendorPhotos = uploadedImagesUrls;
+            vendor.vendorCategoryId = vendorCategoryId;
             writeNewVendorToDataBase(vendor);
         }
 
@@ -353,8 +365,8 @@ public class AddVendorActivity extends AppCompatActivity {
         mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                finish();
                 Toast.makeText(AddVendorActivity.this, "Insert Vendor Completed", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

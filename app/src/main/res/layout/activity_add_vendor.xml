@@ -56,7 +56,7 @@
                 android:ellipsize="end"
                 android:gravity="left"
                 android:hint="@string/hint_vendor_name"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:maxLines="1" />
 
             <EditText
@@ -65,7 +65,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:hint="@string/hint_vedor_details"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine|textCapSentences" />
+
+            <EditText
+                android:id="@+id/field_vendorPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:hint="@string/hint_vendor_place"
+                android:maxLines="1"
+                android:inputType="textCapSentences" />
         </LinearLayout>
     </ScrollView>
 
