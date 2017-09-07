@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.fragment.MyPostsFragment;
 import com.android.weddingplanner.fragment.MyTopPostsFragment;
 import com.android.weddingplanner.fragment.RecentPostsFragment;

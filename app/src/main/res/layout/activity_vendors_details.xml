@@ -183,6 +183,7 @@
                 android:background="@color/gray_color"></View>
 
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
         </LinearLayout>

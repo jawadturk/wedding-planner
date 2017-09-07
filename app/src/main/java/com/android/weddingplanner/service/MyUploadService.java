@@ -10,7 +10,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.weddingplanner.MainActivity;
+import com.android.weddingplanner.activities.MainActivity;
 import com.android.weddingplanner.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

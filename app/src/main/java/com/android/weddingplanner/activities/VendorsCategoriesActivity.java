@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,39 +7,28 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.android.weddingplanner.models.Vendor;
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.models.Vendors_categories;
 import com.android.weddingplanner.viewholder.VendorsCategoriesViewHolder;
-import com.android.weddingplanner.viewholder.VendorsViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class VendorsActivity extends AppCompatActivity {
+public class VendorsCategoriesActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter<Vendor, VendorsViewHolder> mAdapter;
+    private FirebaseRecyclerAdapter<Vendors_categories, VendorsCategoriesViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
-
-    public static final String EXTRA_VENDOR_CATEGORY_KEY = "vendor_category";
-    private String mVendorCategoryKey;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vendors);
-
-        // Get post key from intent
-        mVendorCategoryKey = getIntent().getStringExtra(EXTRA_VENDOR_CATEGORY_KEY);
-        if (mVendorCategoryKey == null) {
-            throw new IllegalArgumentException("Must pass EXTRA_POST_KEY");
-        }
+        setContentView(R.layout.activity_vendors_categories);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         // [END create_database_reference]
 
-        mRecycler = (RecyclerView) findViewById(R.id.recyclerView_vendors);
+        mRecycler = (RecyclerView) findViewById(R.id.recyclerView_vendorsCategories);
         mRecycler.setHasFixedSize(true);
 
         setupRecyclerView();
@@ -53,22 +42,21 @@ public class VendorsActivity extends AppCompatActivity {
 
         // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery(mDatabase);
-
-        mAdapter = new FirebaseRecyclerAdapter<Vendor, VendorsViewHolder>(Vendor.class, R.layout.vendor_row_item,
-                VendorsViewHolder.class, postsQuery) {
+        mAdapter = new FirebaseRecyclerAdapter<Vendors_categories, VendorsCategoriesViewHolder>(Vendors_categories.class, R.layout.item_vendor_category,
+                VendorsCategoriesViewHolder.class, postsQuery) {
             @Override
-            protected void populateViewHolder(final VendorsViewHolder viewHolder, final Vendor model, final int position) {
-                final DatabaseReference vendorsRef = getRef(position);
+            protected void populateViewHolder(final VendorsCategoriesViewHolder viewHolder, final Vendors_categories model, final int position) {
+                final DatabaseReference postRef = getRef(position);
 
                 // Set click listener for the whole post view
-                final String vendorKey = vendorsRef.getKey();
-
-                viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+                final String categoryKey = postRef.getKey();
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(VendorsActivity.this, VendorDetailsAvtivity.class);
-                        intent.putExtra(VendorDetailsAvtivity.EXTRA_VENDOR_KEY, vendorKey);
+                        Intent intent = new Intent(VendorsCategoriesActivity.this, VendorsActivity.class);
+                        intent.putExtra(VendorsActivity.EXTRA_VENDOR_CATEGORY_KEY, categoryKey);
                         startActivity(intent);
+
                     }
                 });
 
@@ -84,12 +72,11 @@ public class VendorsActivity extends AppCompatActivity {
         };
         mRecycler.setAdapter(mAdapter);
     }
-
     public Query getQuery(DatabaseReference databaseReference) {
         // [START recent_posts_query]
         // Last 100 posts, these are automatically the 100 most recent
         // due to sorting by push() keys
-        Query recentPostsQuery = databaseReference.child("vendors").orderByChild("vendorCategoryId").equalTo(mVendorCategoryKey);
+        Query recentPostsQuery = databaseReference.child("vendors-categories");
         // [END recent_posts_query]
 
         return recentPostsQuery;

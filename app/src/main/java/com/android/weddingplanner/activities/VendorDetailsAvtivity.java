@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,10 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.adapter.ImageViewPagerAdapter;
+import com.android.weddingplanner.adapter.VendorReviewsAdapter;
 import com.android.weddingplanner.customcomponents.MyViewPager;
-import com.android.weddingplanner.models.Comment;
-import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.Review;
 import com.android.weddingplanner.models.User;
 import com.android.weddingplanner.models.Vendor;
@@ -36,8 +35,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -50,7 +50,7 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
     private static final String TAG = VendorDetailsAvtivity.class.getSimpleName();
 
     public static final String EXTRA_VENDOR_KEY = "vendorKey";
-    private RecyclerView mRecyclerViewWhosGoing;
+    private RecyclerView mReviewsRecyclerView;
     private LinearLayoutManager mVerticallLayoutManager;
 
 
@@ -80,14 +80,14 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
     private DatabaseReference mVendorReference;
     private DatabaseReference mReviewReference;
     private ValueEventListener mVendorListener;
-
+    private VendorReviewsAdapter mReviewsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendors_details);
         mVendorKey = getIntent().getStringExtra(EXTRA_VENDOR_KEY);
         if (mVendorKey == null) {
-            throw new IllegalArgumentException("Must pass EXTRA_POST_KEY");
+            throw new IllegalArgumentException("Must pass EXTRA_Vendor_KEY");
         }
 
 
@@ -164,6 +164,9 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
 
         mVerticallLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+        mReviewsRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_reviews);
+        mReviewsRecyclerView.setNestedScrollingEnabled(false);
+        mReviewsRecyclerView.setLayoutManager(mVerticallLayoutManager);
 
         expandableTextView = (ExpandableTextView) findViewById(R.id.expandableTextView);
         buttonToggle = (Button) findViewById(R.id.button_toggle);
@@ -296,7 +299,8 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
                 vendrName.setText(vendor.vendorName);
                 vendorPlace.setText(vendor.vendorPlace);
                 vendorReviews.setText(vendor.vendorReviewsNumber + " Reviews");
-                vendorRating.setRating((float) vendor.vendorRating);
+                float rating = (float) vendor.vendorRating / vendor.vendorReviewsNumber;
+                vendorRating.setRating(rating);
                 expandableTextView.setText(vendor.vendorDescription);
 
                 setupPagerImages(vendor.vendorPhotos);
@@ -305,7 +309,7 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
+                // Getting vendor details failed, log a message
                 Log.w(TAG, "vendorLoad:onCancelled", databaseError.toException());
                 // [START_EXCLUDE]
                 Toast.makeText(VendorDetailsAvtivity.this, "Failed to load vendor",
@@ -316,9 +320,11 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
         mVendorReference.addValueEventListener(vendorListener);
         // [END post_value_event_listener]
 
-        // Keep copy of post listener so we can remove it when app stops
+        // Keep copy of vendor listener so we can remove it when app stops
         mVendorListener = vendorListener;
 
+        mReviewsAdapter = new VendorReviewsAdapter(this, mReviewReference);
+        mReviewsRecyclerView.setAdapter(mReviewsAdapter);
 
     }
 
@@ -339,7 +345,7 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                postComment(editText_review.getText().toString(), ratingBar.getRating());
+                postReview(editText_review.getText().toString(), ratingBar.getRating());
                 ReviewDialog.dismiss();
             }
         });
@@ -349,7 +355,7 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
         ReviewDialog.show();
     }
 
-    private void postComment(final String reviewText, final float rating) {
+    private void postReview(final String reviewText, final float rating) {
         final String uid = getUid();
         FirebaseDatabase.getInstance().getReference().child("users").child(uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -365,6 +371,7 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
 
                         // Push the comment, it will appear in the list
                         mReviewReference.push().setValue(review);
+                        onReviewAdded(rating);
 
 
                     }
@@ -376,7 +383,50 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
                 });
     }
 
+    private void onReviewAdded(final float rating) {
+        mVendorReference.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Vendor vendor = mutableData.getValue(Vendor.class);
+                if (vendor == null) {
+                    return Transaction.success(mutableData);
+                }
+
+
+                // Star the post and add self to stars
+                vendor.vendorReviewsNumber = vendor.vendorReviewsNumber + 1;
+                vendor.vendorRating = vendor.vendorRating + rating;
+
+
+                // Set value and report transaction success
+                mutableData.setValue(vendor);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b,
+                                   DataSnapshot dataSnapshot) {
+                // Transaction completed
+                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
+            }
+        });
+    }
+
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // Remove vendor value event listener
+        if (mVendorListener != null) {
+            mVendorReference.removeEventListener(mVendorListener);
+        }
+
+        // Clean up comments listener
+        mReviewsAdapter.cleanupListener();
+    }
+
 }

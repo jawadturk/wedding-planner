@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;

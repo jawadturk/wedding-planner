@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.User;
 import com.google.firebase.database.DataSnapshot;

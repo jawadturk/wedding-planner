@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.adapter.HorizontalImageListSelectorAdapter;
 import com.android.weddingplanner.models.Vendor;
 import com.android.weddingplanner.models.Vendors_categories;
@@ -28,7 +29,6 @@ import com.android.weddingplanner.service.MyUploadService;
 import com.android.weddingplanner.utils.RecyclerTouchListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,15 +37,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.liuguangqiang.ipicker.IPicker;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 import fr.ganfra.materialspinner.MaterialSpinner;
 

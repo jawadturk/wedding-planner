@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.models.Comment;
 import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.User;

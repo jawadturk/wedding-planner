@@ -1,4 +1,4 @@
-package com.android.weddingplanner;
+package com.android.weddingplanner.activities;
 
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.weddingplanner.R;
 import com.android.weddingplanner.models.User;
 import com.android.weddingplanner.models.Vendors_categories;
 import com.android.weddingplanner.service.MyUploadService;

@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.weddingplanner.PostDetailActivity;
+import com.android.weddingplanner.activities.PostDetailActivity;
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.viewholder.PostViewHolder;
