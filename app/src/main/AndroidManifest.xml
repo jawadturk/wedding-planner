@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".activities.PostDetailActivity" />
         <activity android:name=".activities.NewVendorCategoryActivity" />
-        <activity android:name=".activities.VendorsCategoriesActivity" />
+
 
         <service
             android:name=".service.MyUploadService"
@@ -37,7 +37,30 @@
             android:name=".activities.VendorDetailsAvtivity"
             android:theme="@style/AppTheme.NoActionBar2" />
         <activity android:name=".activities.AdminActivity" />
-        <activity android:name=".activities.MainActivityUser"></activity>
+        <activity
+            android:name=".activities.MainActivityUser"
+            android:theme="@style/AppTheme.NoActionBar2"></activity>
+
+        <activity
+            android:name=".todomodule.TodoActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".todomodule.AddToDoActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".todomodule.TodoActivity" />
+
+
+        <activity
+            android:name=".todomodule.ReminderActivity"
+            android:label="@string/app_name" />
+
+        <service android:name=".todomodule.TodoNotificationService" />
+        <service android:name=".todomodule.DeleteNotificationService" />
+
+
     </application>
 
 </manifest>
