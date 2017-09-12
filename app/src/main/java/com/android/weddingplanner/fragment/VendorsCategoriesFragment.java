@@ -3,7 +3,6 @@ package com.android.weddingplanner.fragment;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,7 +27,7 @@ public class VendorsCategoriesFragment extends Fragment {
     private View rootview;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootview = inflater.inflate(R.layout.activity_vendors_categories, container, false);
+        rootview = inflater.inflate(R.layout.fragment_vendors_categories, container, false);
         return rootview;
 
     }

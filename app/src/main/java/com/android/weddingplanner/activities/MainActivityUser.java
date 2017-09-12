@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.weddingplanner.R;
+import com.android.weddingplanner.fragment.BudgetFragment;
 import com.android.weddingplanner.fragment.VendorsCategoriesFragment;
 import com.android.weddingplanner.todomodule.TodoActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -177,6 +178,9 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
                 startActivity(intent);
 //                startActivity(new Intent(MainActivity.this,SettingsActivity.class));
                 break;
+            case R.id.nav_budget:
+                showBudgetFragment();
+                break;
 
         }
 
@@ -258,4 +262,14 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
         }
     }
 
+    public void showBudgetFragment() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        BudgetFragment budgetFragment = (BudgetFragment) supportFragmentManager.findFragmentByTag(BudgetFragment.class.getSimpleName());
+        if (budgetFragment == null) {
+            budgetFragment = new BudgetFragment();
+            switchContent(budgetFragment, false, true);
+        } else {
+            supportFragmentManager.popBackStack(BudgetFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
+        }
+    }
 }

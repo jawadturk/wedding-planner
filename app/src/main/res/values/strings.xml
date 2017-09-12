@@ -30,6 +30,7 @@
     <string name="readLess">Read Less</string>
     <string name="title_section1">Vendors</string>
     <string name="title_section2">Todo</string>
+    <string name="title_section3">Budget</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -60,5 +61,6 @@
     <string name="snooze">Snooze</string>
     <string name="remove">Remove</string>
     <string name="todo_error">Please enter a Todo</string>
+
 
 </resources>
