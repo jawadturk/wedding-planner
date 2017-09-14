@@ -1,6 +1,7 @@
 package com.android.weddingplanner.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.weddingplanner.R;
+import com.android.weddingplanner.activities.AddBudgetItemActivity;
+import com.android.weddingplanner.adapter.CollapsingSectionedAdapter;
 import com.android.weddingplanner.helper.BudgetManager;
+import com.android.weddingplanner.helper.DatabaseOps;
+import com.android.weddingplanner.models.BudgetByCategoryItem;
+import com.android.weddingplanner.models.BudgetItem;
+import com.android.weddingplanner.stickyrecyclerheaders.SectionedRecyclerViewAdapter;
+import com.android.weddingplanner.viewmodel.BudgetItemView;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -31,21 +40,20 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class BudgetFragment extends Fragment implements OnChartValueSelectedListener {
-    protected String[] mParties = new String[]{
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
-
+public class BudgetFragment extends Fragment implements OnChartValueSelectedListener, CollapsingSectionedAdapter.ItemClickListener, BudgetItemView.DietPlanClickListener {
     private RecyclerView mRecycler;
-    private LinearLayoutManager mManager;
+
     private View rootview;
     private PieChart mChart;
 
+    private SectionedRecyclerViewAdapter sectionAdapter;
+
+    private CollapsingSectionedAdapter mAdapter = new CollapsingSectionedAdapter();
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootview = inflater.inflate(R.layout.fragment_budget, container, false);
@@ -58,11 +66,9 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
         super.onViewCreated(view, savedInstanceState);
 
 
-        mRecycler = (RecyclerView) rootview.findViewById(R.id.recyclerView_budgetItems);
-        mRecycler.setHasFixedSize(true);
-
+        setUpViews();
         setupRecyclerView();
-        setUpChartView();
+
 
         rootview.findViewById(R.id.imageButton_editBudget).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,9 +76,17 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
                 showAdjustBudgetValue();
             }
         });
+
+        rootview.findViewById(R.id.fab_addBudgetItem).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AddBudgetItemActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    private void setUpChartView() {
+    private void setUpViews() {
         mChart = (PieChart) rootview.findViewById(R.id.chart1);
         mChart.setUsePercentValues(false);
         mChart.getDescription().setEnabled(false);
@@ -105,8 +119,11 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
         // add a selection listener
         mChart.setOnChartValueSelectedListener(this);
 
-        setData(4, 100);
 
+    }
+
+    private void setUpChartView(List<BudgetByCategoryItem> items) {
+        setData(items);
         mChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
         // mChart.spin(2000, 0, 360);
 
@@ -128,11 +145,11 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
 
 
     private void setupRecyclerView() {
-        mManager = new LinearLayoutManager(getContext());
-        mManager.setReverseLayout(true);
-        mManager.setStackFromEnd(true);
-        mRecycler.setLayoutManager(mManager);
-
+        mRecycler = (RecyclerView) rootview.findViewById(R.id.recyclerView_budgetItems);
+        mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecycler.setNestedScrollingEnabled(false);
+        sectionAdapter = new SectionedRecyclerViewAdapter();
+        mRecycler.setAdapter(sectionAdapter);
 
     }
 
@@ -142,18 +159,40 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
         return s;
     }
 
-    private void setData(int count, float range) {
+    private void setData(List<BudgetByCategoryItem> items) {
 
-        float mult = range;
+        float paidAmount = 0;
+
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < items.get(i).budgetItems.size(); j++) {
+                paidAmount += items.get(i).budgetItems.get(j).itemBudjet;
+            }
+
+        }
+
+        float left = BudgetManager.getBudgetValue() - paidAmount;
+        float exceeded = 0;
+
+        if (left < 0) {
+            exceeded = Math.abs(left);
+            left = 0;
+        }
+
 
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
 
 
-        entries.add(new PieEntry((float) 25, "avb"));
-        entries.add(new PieEntry((float) 25, "avb"));
-        entries.add(new PieEntry((float) 25, "avb"));
-        entries.add(new PieEntry((float) 25, "avb"));
-        PieDataSet dataSet = new PieDataSet(entries, "Election Results");
+        entries.add(new PieEntry(paidAmount, "Paid"));
+
+        if (left > 0) {
+            entries.add(new PieEntry(left, "Left"));
+        }
+        if (exceeded > 0) {
+            entries.add(new PieEntry(exceeded, "Exceeded"));
+        }
+
+
+        PieDataSet dataSet = new PieDataSet(entries, "Budget");
 
         dataSet.setDrawIcons(false);
 
@@ -165,8 +204,6 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
 
         ArrayList<Integer> colors = new ArrayList<Integer>();
 
-        for (int c : ColorTemplate.VORDIPLOM_COLORS)
-            colors.add(c);
 
         for (int c : ColorTemplate.JOYFUL_COLORS)
             colors.add(c);
@@ -227,7 +264,8 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
 
                 if (Float.parseFloat(editText_budgetAmount.getText().toString()) > 100.00) {
                     BudgetManager.setBudgetValue(Float.parseFloat(editText_budgetAmount.getText().toString()));
-                    mChart.setCenterText(generateCenterSpannableText());
+
+                    setUpChartView(DatabaseOps.getCurrentInstance().getBudgetItems());
                     ReviewDialog.dismiss();
                 } else {
                     Toast.makeText(getContext(), "Value must be greater than 100$", Toast.LENGTH_SHORT).show();
@@ -245,6 +283,35 @@ public class BudgetFragment extends Fragment implements OnChartValueSelectedList
     public void onResume() {
         super.onResume();
         mChart.setCenterText(generateCenterSpannableText());
+
+        List<BudgetByCategoryItem> items = new ArrayList<>();
+        items = DatabaseOps.getCurrentInstance().getBudgetItems();
+        Log.d("BudgetFragment", "onResume: " + items.size());
+
+        setUpChartView(items);
+        sectionAdapter.removeAllSections();
+
+        for (int i = 0; i < items.size(); i++) {
+            BudgetItemView weekDietPlanView = new BudgetItemView(items.get(i), i);
+            weekDietPlanView.setMyClickListener(this);
+            sectionAdapter.addSection(String.valueOf(i), weekDietPlanView);
+        }
+        sectionAdapter.notifyDataSetChanged();
+        mRecycler.setAdapter(sectionAdapter);
+
+
+    }
+
+    @Override
+    public void onItemClicked(int sectionIndex, int sectionItemIndex, int dietDayId, boolean checked) {
+
+    }
+
+    @Override
+    public void onItemClick(int sectionPosition, int position, BudgetItem item) {
+        Intent intent = new Intent(getActivity(), AddBudgetItemActivity.class);
+        intent.putExtra(AddBudgetItemActivity.BUDGET_ITEM_KEY, item);
+        startActivity(intent);
 
     }
 }

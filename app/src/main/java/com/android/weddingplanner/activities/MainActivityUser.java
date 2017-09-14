@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.fragment.BudgetFragment;
+import com.android.weddingplanner.fragment.InviteToWeddingFragment;
 import com.android.weddingplanner.fragment.VendorsCategoriesFragment;
-import com.android.weddingplanner.todomodule.TodoActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivityUser extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, NavigationView.OnNavigationItemSelectedListener {
@@ -79,6 +79,9 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
         navigationView.setNavigationItemSelectedListener(this);
 
         onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_vendor));
+        navigationView.setCheckedItem(R.id.nav_vendor);
+
+
         getSupportActionBar().setTitle(getString(R.string.title_section1));
 
 
@@ -169,19 +172,37 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
+        String title = getString(R.string.app_name);
         switch (id) {
             case R.id.nav_vendor:
+                title = getString(R.string.title_section1);
                 showVendorsCategoriesFeagment();
                 break;
             case R.id.nav_todo:
                 Intent intent = new Intent(MainActivityUser.this, TodoActivity.class);
                 startActivity(intent);
+                navigationView.getMenu().getItem(1).setChecked(false);
 //                startActivity(new Intent(MainActivity.this,SettingsActivity.class));
                 break;
             case R.id.nav_budget:
+                title = getString(R.string.title_section3);
                 showBudgetFragment();
                 break;
+            case R.id.nav_invite:
+                title = getString(R.string.title_section4);
+                showInvitePeopleFragment();
+                break;
+            case R.id.nav_logOut:
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(getApplicationContext(), SignInActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(i);
+                finish();
+                break;
 
+        }
+        if (id != R.id.nav_todo) {
+            getSupportActionBar().setTitle(title);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -270,6 +291,17 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
             switchContent(budgetFragment, false, true);
         } else {
             supportFragmentManager.popBackStack(BudgetFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
+        }
+    }
+
+    public void showInvitePeopleFragment() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        InviteToWeddingFragment inviteToWeddingFragment = (InviteToWeddingFragment) supportFragmentManager.findFragmentByTag(InviteToWeddingFragment.class.getSimpleName());
+        if (inviteToWeddingFragment == null) {
+            inviteToWeddingFragment = new InviteToWeddingFragment();
+            switchContent(inviteToWeddingFragment, false, true);
+        } else {
+            supportFragmentManager.popBackStack(InviteToWeddingFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
         }
     }
 }

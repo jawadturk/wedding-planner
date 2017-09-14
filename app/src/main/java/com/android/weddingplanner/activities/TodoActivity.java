@@ -1,4 +1,4 @@
-package com.android.weddingplanner.todomodule;
+package com.android.weddingplanner.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -18,6 +18,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -31,6 +32,14 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.android.weddingplanner.R;
+import com.android.weddingplanner.todomodule.AddToDoActivity;
+import com.android.weddingplanner.todomodule.CustomRecyclerScrollViewListener;
+import com.android.weddingplanner.todomodule.ItemTouchHelperClass;
+import com.android.weddingplanner.todomodule.RecyclerViewEmptySupport;
+import com.android.weddingplanner.todomodule.ReminderActivity;
+import com.android.weddingplanner.todomodule.StoreRetrieveData;
+import com.android.weddingplanner.todomodule.ToDoItem;
+import com.android.weddingplanner.todomodule.TodoNotificationService;
 
 import org.json.JSONException;
 
@@ -542,6 +551,23 @@ public class TodoActivity extends AppCompatActivity {
         mRecyclerView.removeOnScrollListener(customRecyclerScrollViewListener);
     }
 
+    private void setUpToolBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
 

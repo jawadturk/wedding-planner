@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -72,6 +73,7 @@ public class AddVendorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_vendor);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         setUpViews();
+        setUpToolBar();
         retrieveVendorsCategories();
         setupRecyclerView();
         setupBroadCastReceiver();
@@ -365,5 +367,23 @@ public class AddVendorActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    private void setUpToolBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add New Vendor");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

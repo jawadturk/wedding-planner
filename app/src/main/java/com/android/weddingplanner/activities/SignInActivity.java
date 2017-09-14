@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.weddingplanner.R;
+import com.android.weddingplanner.helper.GcmManagerManager;
 import com.android.weddingplanner.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -159,7 +160,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     // [START basic_write]
     private void writeNewUser(String userId, String name, String email,String firstName,String lastName) {
-        User user = new User(name, email,firstName,lastName);
+        User user = new User(name, email, firstName, lastName, GcmManagerManager.getToken());
 
         mDatabase.child("users").child(userId).setValue(user);
     }

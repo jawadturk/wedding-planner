@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.android.weddingplanner.R;
@@ -42,6 +43,7 @@ public class VendorsActivity extends AppCompatActivity {
         mRecycler.setHasFixedSize(true);
 
         setupRecyclerView();
+        setUpToolBar();
     }
 
     private void setupRecyclerView() {
@@ -92,5 +94,23 @@ public class VendorsActivity extends AppCompatActivity {
         // [END recent_posts_query]
 
         return recentPostsQuery;
+    }
+
+    private void setUpToolBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

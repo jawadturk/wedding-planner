@@ -7,12 +7,23 @@
 
     >
 
-    <RelativeLayout
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
         android:id="@+id/relativeLayout_charBudget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.github.mikephil.charting.charts.PieChart
+
             android:id="@+id/chart1"
             android:layout_width="match_parent"
             android:layout_height="300dp" />
@@ -28,6 +39,7 @@
     </RelativeLayout>
 
     <View
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/relativeLayout_charBudget"
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -39,11 +51,13 @@
         android:layout_below="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
         android:background="@color/colorWhite"
         android:scrollbars="vertical" />
 
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_addBudgetItem"
         android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_height="wrap_content"

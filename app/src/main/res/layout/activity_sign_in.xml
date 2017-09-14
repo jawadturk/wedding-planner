@@ -52,7 +52,7 @@
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:hint="@string/hint_firstName"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:maxLines="1" />
         <EditText
             android:id="@+id/field_LastName"
@@ -61,7 +61,7 @@
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:hint="@string/hint_lastName"
-            android:inputType="textPassword"
+            android:inputType="text"
             android:maxLines="1" />
 
     </LinearLayout>

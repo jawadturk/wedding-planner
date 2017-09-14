@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.facebook.stetho.Stetho;
+
 
 //import timber.log.Timber;
 
@@ -29,6 +31,7 @@ public class ApplicationClass extends Application {
         super.onCreate();
 
         mInstance = this;
+        Stetho.initializeWithDefaults(this);
 
 
     }

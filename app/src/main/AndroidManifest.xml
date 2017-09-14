@@ -3,13 +3,13 @@
     package="com.android.weddingplanner">
 
     <application
+        android:name=".application.ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".application.ApplicationClass">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
@@ -25,7 +25,6 @@
         <activity android:name=".activities.PostDetailActivity" />
         <activity android:name=".activities.NewVendorCategoryActivity" />
 
-
         <service
             android:name=".service.MyUploadService"
             android:exported="false" />
@@ -40,20 +39,14 @@
         <activity android:name=".activities.AdminActivity" />
         <activity
             android:name=".activities.MainActivityUser"
-            android:theme="@style/AppTheme.NoActionBar2"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar2" />
         <activity
-            android:name=".todomodule.TodoActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-
+            android:name=".activities.TodoActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".todomodule.AddToDoActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".todomodule.TodoActivity" />
-
-
+            android:parentActivityName=".activities.TodoActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".todomodule.ReminderActivity"
             android:label="@string/app_name" />
@@ -61,7 +54,19 @@
         <service android:name=".todomodule.TodoNotificationService" />
         <service android:name=".todomodule.DeleteNotificationService" />
 
+        <activity android:name=".activities.AddBudgetItemActivity"></activity>
 
+        <service android:name=".pushnotificationstuff.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".pushnotificationstuff.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

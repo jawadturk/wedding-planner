@@ -61,6 +61,7 @@
     <string name="snooze">Snooze</string>
     <string name="remove">Remove</string>
     <string name="todo_error">Please enter a Todo</string>
+    <string name="title_section4">Invite People</string>
 
 
 </resources>

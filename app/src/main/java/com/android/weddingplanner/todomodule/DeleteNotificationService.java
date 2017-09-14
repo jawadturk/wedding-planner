@@ -4,6 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.android.weddingplanner.activities.TodoActivity;
+
 import java.util.ArrayList;
 import java.util.UUID;
 

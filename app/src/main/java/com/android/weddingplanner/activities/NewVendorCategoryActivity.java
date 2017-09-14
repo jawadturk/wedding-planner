@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -108,6 +109,7 @@ public class NewVendorCategoryActivity extends BaseActivity {
                 }
             }
         };
+        setUpToolBar();
     }
 
     private void submitPost() {
@@ -237,5 +239,23 @@ public class NewVendorCategoryActivity extends BaseActivity {
         // Register receiver for uploads and downloads
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
         manager.registerReceiver(mBroadcastReceiver, MyUploadService.getIntentFilter());
+    }
+
+    private void setUpToolBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("New Vendor Category");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
