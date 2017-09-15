@@ -11,6 +11,7 @@ public class User {
     public String firstName;
     public String lastName;
     public String gcm;
+    public String profilePicture = "";
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)

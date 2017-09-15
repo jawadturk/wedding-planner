@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.fragment.BudgetFragment;
 import com.android.weddingplanner.fragment.InviteToWeddingFragment;
+import com.android.weddingplanner.fragment.ProfileFragment;
 import com.android.weddingplanner.fragment.VendorsCategoriesFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -192,6 +193,10 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
                 title = getString(R.string.title_section4);
                 showInvitePeopleFragment();
                 break;
+            case R.id.nav_profile:
+                title = getString(R.string.title_section5);
+                showProfileFragment();
+                break;
             case R.id.nav_logOut:
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getApplicationContext(), SignInActivity.class);
@@ -302,6 +307,17 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
             switchContent(inviteToWeddingFragment, false, true);
         } else {
             supportFragmentManager.popBackStack(InviteToWeddingFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
+        }
+    }
+
+    public void showProfileFragment() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        ProfileFragment profileFragment = (ProfileFragment) supportFragmentManager.findFragmentByTag(ProfileFragment.class.getSimpleName());
+        if (profileFragment == null) {
+            profileFragment = new ProfileFragment();
+            switchContent(profileFragment, false, true);
+        } else {
+            supportFragmentManager.popBackStack(ProfileFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
         }
     }
 }
