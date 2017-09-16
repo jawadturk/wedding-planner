@@ -39,7 +39,8 @@
         <activity android:name=".activities.AdminActivity" />
         <activity
             android:name=".activities.MainActivityUser"
-            android:theme="@style/AppTheme.NoActionBar2" />
+            android:theme="@style/AppTheme.NoActionBar2"
+            android:windowSoftInputMode="stateHidden|adjustNothing" />
         <activity
             android:name=".activities.TodoActivity"
             android:screenOrientation="portrait"></activity>
