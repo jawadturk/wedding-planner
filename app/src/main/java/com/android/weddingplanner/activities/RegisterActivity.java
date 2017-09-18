@@ -21,10 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class SignInActivity extends BaseActivity implements View.OnClickListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "SignInActivity";
 
@@ -33,9 +30,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private EditText mEmailField;
     private EditText mPasswordField;
-
+    private EditText mFirstName;
+    private EditText mLastName;
     private Button mSignInButton;
-
+    private Button mSignUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +46,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         // Views
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
+        mFirstName = (EditText) findViewById(R.id.field_firstName);
+        mLastName = (EditText) findViewById(R.id.field_LastName);
         mSignInButton = (Button) findViewById(R.id.button_sign_in);
-
+        mSignUpButton = (Button) findViewById(R.id.button_sign_up);
 
         // Click listeners
         mSignInButton.setOnClickListener(this);
-
+        mSignUpButton.setOnClickListener(this);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
-                            Toast.makeText(SignInActivity.this, "Sign In Failed",
+                            Toast.makeText(RegisterActivity.this, "Sign In Failed",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -113,7 +113,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
-                            Toast.makeText(SignInActivity.this, "Sign Up Failed",
+                            Toast.makeText(RegisterActivity.this, "Sign Up Failed",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -121,14 +121,23 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void onAuthSuccess(FirebaseUser user) {
+        String username = usernameFromEmail(user.getEmail());
 
-        updateGcm(user.getUid());
+        // Write new user
+        writeNewUser(user.getUid(), username, user.getEmail(), mFirstName.getText().toString(), mLastName.getText().toString());
 
         // Go to MainActivity
-        startActivity(new Intent(SignInActivity.this, MainActivityUser.class));
+        startActivity(new Intent(RegisterActivity.this, MainActivityUser.class));
         finish();
     }
 
+    private String usernameFromEmail(String email) {
+        if (email.contains("@")) {
+            return email.split("@")[0];
+        } else {
+            return email;
+        }
+    }
 
     private boolean validateForm() {
         boolean result = true;
@@ -150,15 +159,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     // [START basic_write]
-    private void updateGcm(String userId) {
-        User user = new User(GcmManagerManager.getToken());
+    private void writeNewUser(String userId, String name, String email, String firstName, String lastName) {
+        User user = new User(name, email, firstName, lastName, GcmManagerManager.getToken());
 
-        Map<String, Object> postValues = user.toMap();
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/users/" + userId, postValues);
-
-        mDatabase.updateChildren(childUpdates);
+        mDatabase.child("users").child(userId).setValue(user);
     }
     // [END basic_write]
 

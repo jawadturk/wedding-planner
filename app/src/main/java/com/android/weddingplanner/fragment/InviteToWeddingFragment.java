@@ -26,8 +26,11 @@ import com.android.weddingplanner.helper.BudgetManager;
 import com.android.weddingplanner.helper.DatabaseOps;
 import com.android.weddingplanner.models.BudgetByCategoryItem;
 import com.android.weddingplanner.models.BudgetItem;
+import com.android.weddingplanner.models.Invitation;
+import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.User;
 import com.android.weddingplanner.models.Vendors_categories;
+import com.android.weddingplanner.models.WeddingDetails;
 import com.android.weddingplanner.stickyrecyclerheaders.SectionedRecyclerViewAdapter;
 import com.android.weddingplanner.viewholder.UsersViewHolder;
 import com.android.weddingplanner.viewholder.VendorsCategoriesViewHolder;
@@ -45,12 +48,18 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InviteToWeddingFragment extends Fragment {
     private DatabaseReference mDatabase;
@@ -58,6 +67,9 @@ public class InviteToWeddingFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
     private View rootview;
+    private static final String TAG = InviteToWeddingFragment.class.getSimpleName();
+    WeddingDetails weddingDetails;
+    String weddingKey;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,6 +90,7 @@ public class InviteToWeddingFragment extends Fragment {
         mRecycler.setHasFixedSize(true);
 
         setupRecyclerView();
+        fetchWeddingSavedData();
 
 
     }
@@ -97,7 +110,7 @@ public class InviteToWeddingFragment extends Fragment {
                 final DatabaseReference postRef = getRef(position);
 
                 // Set click listener for the whole post view
-                final String categoryKey = postRef.getKey();
+                final String userId = postRef.getKey();
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -111,7 +124,12 @@ public class InviteToWeddingFragment extends Fragment {
                 viewHolder.bindToPost(model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {
+                        if (weddingDetails != null) {
 
+                            inviteToWedding(new Invitation(FirebaseAuth.getInstance().getCurrentUser().getUid(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), userId, weddingDetails));
+                        } else {
+                            Toast.makeText(getContext(), "Please fill wedding details first in profile", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
@@ -129,5 +147,33 @@ public class InviteToWeddingFragment extends Fragment {
         return recentPostsQuery;
     }
 
+    void fetchWeddingSavedData() {
+        mDatabase.child("weddings").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        weddingDetails = dataSnapshot.getValue(WeddingDetails.class);
+                        weddingKey = dataSnapshot.getKey();
 
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+
+                    }
+                });
+    }
+
+    private void inviteToWedding(Invitation invitation) {
+
+
+        String key = mDatabase.child("invitaions").push().getKey();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/invitaions/" + key, invitation.toMap());
+
+        mDatabase.updateChildren(childUpdates);
+    }
 }
