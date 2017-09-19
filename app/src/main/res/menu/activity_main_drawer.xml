@@ -26,7 +26,10 @@
 
     <item android:title="">
         <menu>
-
+            <item
+                android:id="@+id/nav_admin"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="Admin" />
             <item
                 android:id="@+id/nav_logOut"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"

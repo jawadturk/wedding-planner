@@ -12,8 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,18 +22,14 @@ import android.widget.Toast;
 
 
 import com.android.weddingplanner.R;
-import com.android.weddingplanner.activities.NewPostActivity;
 import com.android.weddingplanner.models.User;
 import com.android.weddingplanner.service.MyUploadService;
-import com.android.weddingplanner.viewholder.UsersViewHolder;
 import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.liuguangqiang.ipicker.IPicker;
 import com.squareup.picasso.Picasso;
@@ -149,13 +143,13 @@ public class ProfileFragment extends Fragment {
         mPagerAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
             private final Fragment[] mFragments = new Fragment[]{
                     new MyWeddingStoryFragment(),
-                    new MyPostsFragment(),
-                    new MyTopPostsFragment(),
+                    new SentWeddingInvitationsFragment(),
+                    new ReceivedWeddingInvitationsFragment(),
             };
             private final String[] mFragmentNames = new String[]{
                     getString(R.string.myWedding),
-                    getString(R.string.heading_my_posts),
-                    getString(R.string.heading_my_top_posts)
+                    getString(R.string.sentInvitations),
+                    getString(R.string.receivedInvitations)
             };
 
             @Override

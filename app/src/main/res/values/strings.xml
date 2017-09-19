@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Firebase Database</string>
+    <string name="app_name">Wedding Planner</string>
     <string name="action_settings">Settings</string>
     <string name="menu_login">Log in</string>
     <string name="menu_logout">Log out</string>
@@ -64,6 +64,6 @@
     <string name="title_section4">Invite People</string>
     <string name="title_section5">Profile</string>
     <string name="myWedding">My Wedding</string>
-
-
+    <string name="sentInvitations">Sent Invitations</string>
+    <string name="receivedInvitations">Received Invitations</string>
 </resources>

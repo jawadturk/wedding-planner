@@ -6,12 +6,12 @@
     tools:context=".activities.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages_list"
+        android:id="@+id/recyclerView_weddingInvitations"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:clipToPadding="false"
-        android:padding="5dp"
+        android:background="@color/colorWhite"
         android:scrollbars="vertical"
         tools:listitem="@layout/list_wedding_invitations" />
 

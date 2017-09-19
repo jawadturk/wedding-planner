@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".activities.SignInActivity">
 
 
@@ -16,7 +15,6 @@
         android:src="@drawable/firebase_lockup_400" />
 
     <LinearLayout
-        android:layout_marginTop="100dp"
         android:id="@+id/layout_email_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,26 +42,36 @@
             android:inputType="textPassword"
             android:maxLines="1" />
 
+        <EditText
+            android:id="@+id/field_firstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:hint="@string/hint_firstName"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <EditText
+            android:id="@+id/field_LastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:hint="@string/hint_lastName"
+            android:inputType="text"
+            android:maxLines="1" />
 
     </LinearLayout>
 
 
     <Button
-        android:layout_above="@+id/button_sign_in"
+        android:layout_alignParentBottom="true"
         android:id="@+id/button_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_up"
-        android:textAllCaps="false" />
-        <Button
-            android:layout_alignParentBottom="true"
-            android:id="@+id/button_sign_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:theme="@style/button_style"
-
-            />
+        android:theme="@style/button_style" />
 
 
 </RelativeLayout>

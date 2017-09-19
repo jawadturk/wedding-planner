@@ -12,14 +12,19 @@ import android.widget.Toast;
 
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.helper.GcmManagerManager;
+import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +40,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private EditText mPasswordField;
 
     private Button mSignInButton;
+    private Button mSignUpButton;
 
 
     @Override
@@ -50,10 +56,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         mPasswordField = (EditText) findViewById(R.id.field_password);
         mSignInButton = (Button) findViewById(R.id.button_sign_in);
 
-
+        mSignUpButton = (Button) findViewById(R.id.button_sign_up);
         // Click listeners
         mSignInButton.setOnClickListener(this);
-
+        mSignUpButton.setOnClickListener(this);
     }
 
     @Override
@@ -94,30 +100,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void signUp() {
-        Log.d(TAG, "signUp");
-        if (!validateForm()) {
-            return;
-        }
-
-        showProgressDialog();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
-
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUser:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
-
-                        if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            Toast.makeText(SignInActivity.this, "Sign Up Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        Intent intent = new Intent(SignInActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     private void onAuthSuccess(FirebaseUser user) {
@@ -148,17 +132,32 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         return result;
     }
-
-    // [START basic_write]
     private void updateGcm(String userId) {
-        User user = new User(GcmManagerManager.getToken());
 
-        Map<String, Object> postValues = user.toMap();
+        DatabaseReference globalPostRef = mDatabase.child("users").child(userId);
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/users/" + userId, postValues);
+        globalPostRef.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                User user = mutableData.getValue(User.class);
+                if (user == null) {
+                    return Transaction.success(mutableData);
+                }
 
-        mDatabase.updateChildren(childUpdates);
+                user.gcm = GcmManagerManager.getToken();
+                // Set value and report transaction success
+                mutableData.setValue(user);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b,
+                                   DataSnapshot dataSnapshot) {
+                // Transaction completed
+                Log.d(TAG, "postTransaction:onComplete:" + databaseError);
+            }
+        });
+
     }
     // [END basic_write]
 

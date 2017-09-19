@@ -13,7 +13,8 @@ public class Invitation {
 
     public String senderId;
     public String receiverId;
-    public String senderIdentity;
+    public String senderIdentity = "";
+    public String receiverIdentity = "";
     public String state = StaticValues.pendingInvitation;
     public WeddingDetails weddingDetails;
 
@@ -22,10 +23,11 @@ public class Invitation {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Invitation(String senderId, String senderIdentity, String receiverId, WeddingDetails weddingDetails) {
+    public Invitation(String senderId, String senderIdentity, String receiverId, String receiverIdentity, WeddingDetails weddingDetails) {
         this.senderId = senderId;
         this.senderIdentity = senderIdentity;
         this.receiverId = receiverId;
+        this.receiverIdentity = receiverIdentity;
         this.weddingDetails = weddingDetails;
 
     }
@@ -37,6 +39,7 @@ public class Invitation {
         result.put("senderId", senderId);
         result.put("senderIdentity", senderIdentity);
         result.put("receiverId", receiverId);
+        result.put("receiverIdentity", receiverIdentity);
         result.put("weddingDetails", weddingDetails);
         result.put("state", state);
 

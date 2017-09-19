@@ -32,13 +32,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private EditText mPasswordField;
     private EditText mFirstName;
     private EditText mLastName;
-    private Button mSignInButton;
     private Button mSignUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_register);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -48,11 +47,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         mPasswordField = (EditText) findViewById(R.id.field_password);
         mFirstName = (EditText) findViewById(R.id.field_firstName);
         mLastName = (EditText) findViewById(R.id.field_LastName);
-        mSignInButton = (Button) findViewById(R.id.button_sign_in);
         mSignUpButton = (Button) findViewById(R.id.button_sign_up);
 
-        // Click listeners
-        mSignInButton.setOnClickListener(this);
+
         mSignUpButton.setOnClickListener(this);
     }
 
@@ -60,38 +57,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void onStart() {
         super.onStart();
 
-        // Check auth on Activity start
-        if (mAuth.getCurrentUser() != null) {
-            onAuthSuccess(mAuth.getCurrentUser());
-        }
+
     }
 
-    private void signIn() {
-        Log.d(TAG, "signIn");
-        if (!validateForm()) {
-            return;
-        }
 
-        showProgressDialog();
-        String email = mEmailField.getText().toString();
-        String password = mPasswordField.getText().toString();
-
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signIn:onComplete:" + task.isSuccessful());
-                        hideProgressDialog();
-
-                        if (task.isSuccessful()) {
-                            onAuthSuccess(task.getResult().getUser());
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Sign In Failed",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
 
     private void signUp() {
         Log.d(TAG, "signUp");
@@ -169,9 +138,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.button_sign_in) {
-            signIn();
-        } else if (i == R.id.button_sign_up) {
+        if (i == R.id.button_sign_up) {
             signUp();
         }
     }

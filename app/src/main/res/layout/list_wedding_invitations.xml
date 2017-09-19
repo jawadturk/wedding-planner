@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fleetcardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="3.5dp"
+    android:layout_marginTop="3.5dp"
+    android:layout_marginLeft="7dp"
+    android:layout_marginRight="7dp"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp"
+    card_view:contentPadding="0dp">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:id="@+id/relativeLayout_notificationContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+        <ImageView
+            android:id="@+id/imageView_notificationDrawable"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            tools:src="@drawable/confirmed_drawable"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="7dp"
+
+            />
+
+        <TextView
+            android:layout_toRightOf="@+id/imageView_notificationDrawable"
+            android:id="@+id/textView_senderName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="notification title"
+            android:layout_marginLeft="10dp"
+            android:textSize="12dp"
+            android:layout_alignTop="@+id/imageView_notificationDrawable"
+            android:textColor="@color/colorBlack"
+            android:gravity="top" />
+
+        <TextView
+            android:layout_toRightOf="@+id/imageView_notificationDrawable"
+            android:id="@+id/textView_receiverName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="notification Status"
+            android:layout_marginLeft="10dp"
+            android:textSize="10dp"
+            android:layout_alignBottom="@+id/imageView_notificationDrawable"
+            android:gravity="bottom" />
+
+        <View
+            android:id="@+id/view_divier_notificationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_color"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/imageView_notificationDrawable"
+
+            ></View>
+
+        <TextView
+            android:id="@+id/textView_notificationContentMessage"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Samir wants to invite you to his wedding ?"
+            android:layout_below="@+id/view_divier_notificationLayout"
+            android:textSize="12dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:textColor="@color/colorBlack"
+            android:layout_marginBottom="10dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout_buttons"
+            android:layout_below="@+id/textView_notificationContentMessage"
+            android:orientation="horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:id="@+id/button_rejectInvitation"
+                android:backgroundTint="@color/squarecamera__red"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Reject"
+                android:textColor="@color/white"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/button_acceptInvitation"
+                android:backgroundTint="@color/green"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Accept"
+                android:textColor="@color/white"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+

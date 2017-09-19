@@ -16,19 +16,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.fragment.BudgetFragment;
 import com.android.weddingplanner.fragment.InviteToWeddingFragment;
 import com.android.weddingplanner.fragment.ProfileFragment;
 import com.android.weddingplanner.fragment.VendorsCategoriesFragment;
+import com.android.weddingplanner.models.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
+import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class MainActivityUser extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = MainActivity.class.getSimpleName();
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;
@@ -37,15 +49,23 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
     private TextView textView_user_name;
     private TextView textView_user_email;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+    private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_user);
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         setUpToolBarAndDrawer();
         setUpViews();
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchUserProfile();
     }
 
     private void setUpViews() {
@@ -204,6 +224,12 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
                 startActivity(i);
                 finish();
                 break;
+            case R.id.nav_admin:
+
+                Intent intentAdmin = new Intent(getApplicationContext(), AdminActivity.class);
+                startActivity(intentAdmin);
+
+                break;
 
         }
         if (id != R.id.nav_todo) {
@@ -318,6 +344,46 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
             switchContent(profileFragment, false, true);
         } else {
             supportFragmentManager.popBackStack(ProfileFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
+        }
+    }
+
+    private void fetchUserProfile() {
+        DatabaseReference globalPostRef = mDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        globalPostRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get user value
+                        User user = dataSnapshot.getValue(User.class);
+
+                        // [START_EXCLUDE]
+                        if (user == null) {
+                            // User is null, error out
+                            Log.e(TAG, "User " + FirebaseAuth.getInstance().getCurrentUser().getUid() + " is unexpectedly null");
+                            Toast.makeText(MainActivityUser.this,
+                                    "Error: could not fetch user.",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            textView_user_name.setText(user.firstName + " " + user.lastName);
+                            setImage(user.profilePicture);
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+
+                    }
+                });
+    }
+
+    void setImage(String path) {
+        if (!TextUtils.isEmpty(path)) {
+            Picasso.with(imgView.getContext()).load(path).transform(new CropCircleTransformation()).into(imgView);
+
         }
     }
 }
