@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.activities.MainActivity;
+import com.android.weddingplanner.activities.MainActivityUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -47,7 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (data.size() > 0) {
             Log.e(TAG, "Data Payload: " + data.toString());
             try {
-                JSONObject json = new JSONObject(data.toString());
+                JSONObject json = new JSONObject(data);
                 handleMessageData(json);
 
             } catch (Exception e) {
@@ -62,23 +63,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e(TAG, "push json: " + json.toString());
 
         try {
-            JSONObject data = json.getJSONObject("payload");
-            Log.d(TAG, "handleMessageData: " + data.toString());
-            String NOTIFICATION_TYPE_ID;
+
             String messageTitle = "New Message";
             String messageContent = "New Chat Message Received";
-            if (data.has("NOTIFICATION_TYPE_ID")) {
-                NOTIFICATION_TYPE_ID = data.getString("NOTIFICATION_TYPE_ID");
-                Log.d(TAG, "NotificationTypeId: " + NOTIFICATION_TYPE_ID);
-            }
 
-            if (data.has("title")) {
-                messageTitle = data.getString("title");
+            if (json.has("title")) {
+                messageTitle = json.getString("title");
                 Log.d(TAG, "messageTitle: " + messageTitle);
             }
 
-            if (data.has("message")) {
-                messageContent = data.getString("message");
+            if (json.has("message")) {
+                messageContent = json.getString("message");
                 Log.d(TAG, "messageContent: " + messageContent);
             }
 
@@ -122,7 +117,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        mBuilder.setContentIntent(resultPendingIntent);
 
 
-        Intent backIntent = new Intent(this, MainActivity.class);
+        Intent backIntent = new Intent(this, MainActivityUser.class);
         backIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         final PendingIntent resultPendingIntent = PendingIntent.getActivities(
                 this, 0,

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,6 +60,8 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -174,7 +177,7 @@ public class InviteToWeddingFragment extends Fragment {
                     public void onClick(View starView) {
                         if (weddingDetails != null) {
 
-                            inviteToWedding(new Invitation(FirebaseAuth.getInstance().getCurrentUser().getUid(), user.firstName + " " + user.lastName, userId, model.firstName + " " + model.lastName, weddingDetails));
+                            inviteToWedding(new Invitation(FirebaseAuth.getInstance().getCurrentUser().getUid(), user.firstName + " " + user.lastName, userId, model.firstName + " " + model.lastName, weddingDetails), model.gcm);
                         } else {
                             Toast.makeText(getContext(), "Please fill wedding details first in profile", Toast.LENGTH_SHORT).show();
                         }
@@ -215,21 +218,28 @@ public class InviteToWeddingFragment extends Fragment {
                 });
     }
 
-    private void inviteToWedding(Invitation invitation) {
+    private void inviteToWedding(final Invitation invitation, final String gcm) {
 
 
         String key = mDatabase.child("invitations").push().getKey();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/invitations/" + key, invitation.toMap());
 
-        mDatabase.updateChildren(childUpdates);
+        mDatabase.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                sendFCMPush(invitation, gcm);
+            }
+        });
     }
 
-    private void sendFCMPush(String receiverKey) {
+    private void sendFCMPush(Invitation invitation, String receiverKey) {
 
         final String Legacy_SERVER_KEY = "AIzaSyCZ0c2vwCxLul2bGkQCLSsZQns4sT4ECp8";
-        String msg = "this is test message,.,,.,.";
-        String title = "my title";
+        String msg = invitation.senderIdentity + " would like to invite you to the wedding of "
+                + invitation.weddingDetails.groomName + " and " + invitation.weddingDetails.brideName
+                + " in " + invitation.weddingDetails.weddingLocation + " at " + invitation.weddingDetails.weddingtime;
+        String title = "Wedding Invitation";
         String token = receiverKey;
 
         JSONObject obj = null;
@@ -248,7 +258,7 @@ public class InviteToWeddingFragment extends Fragment {
             objData.put("priority", "high");
 
             dataobjData = new JSONObject();
-            dataobjData.put("text", msg);
+            dataobjData.put("message", msg);
             dataobjData.put("title", title);
 
             obj.put("to", token);
@@ -261,7 +271,7 @@ public class InviteToWeddingFragment extends Fragment {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, "ttps://fcm.googleapis.com/fcm/send", obj,
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, "https://fcm.googleapis.com/fcm/send", obj,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

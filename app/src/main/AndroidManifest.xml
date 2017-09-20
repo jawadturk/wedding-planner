@@ -61,6 +61,9 @@
             android:parentActivityName=".activities.TodoActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activities.AddNewGiftItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".todomodule.ReminderActivity"
             android:label="Reminders" />
 

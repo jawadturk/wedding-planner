@@ -28,6 +28,7 @@ import com.android.weddingplanner.fragment.BudgetFragment;
 import com.android.weddingplanner.fragment.InviteToWeddingFragment;
 import com.android.weddingplanner.fragment.ProfileFragment;
 import com.android.weddingplanner.fragment.VendorsCategoriesFragment;
+import com.android.weddingplanner.fragment.WantedGiftsFragment;
 import com.android.weddingplanner.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -217,6 +218,10 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
                 title = getString(R.string.title_section5);
                 showProfileFragment();
                 break;
+            case R.id.nav_wantedGifts:
+                title = getString(R.string.title_section6);
+                showWantedGiftsFragment();
+                break;
             case R.id.nav_logOut:
                 FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getApplicationContext(), SignInActivity.class);
@@ -347,6 +352,16 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
         }
     }
 
+    public void showWantedGiftsFragment() {
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        WantedGiftsFragment wantedGiftsFragment = (WantedGiftsFragment) supportFragmentManager.findFragmentByTag(WantedGiftsFragment.class.getSimpleName());
+        if (wantedGiftsFragment == null) {
+            wantedGiftsFragment = new WantedGiftsFragment();
+            switchContent(wantedGiftsFragment, false, true);
+        } else {
+            supportFragmentManager.popBackStack(WantedGiftsFragment.class.getSimpleName(), 0); //or return false/true based on where you are calling from to deny adding
+        }
+    }
     private void fetchUserProfile() {
         DatabaseReference globalPostRef = mDatabase.child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         globalPostRef.addListenerForSingleValueEvent(

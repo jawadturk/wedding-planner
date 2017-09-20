@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/fleetcardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="5dp"
+        card_view:contentPadding="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/card_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bg_main" />
+-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="0dp">
+
+                <RelativeLayout
+                    android:id="@+id/myContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+
+                        />
+
+                    <ImageView
+                        android:id="@+id/imageView_indicator"
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/myImageView"
+                        android:layout_alignTop="@+id/myImageView"
+                        android:background="@color/squarecamera__red"></ImageView>
+
+                    <ImageView
+                        android:id="@+id/myImageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minHeight="150dp"
+                        android:minWidth="130dp"
+                        android:scaleType="fitCenter"
+                        android:layout_toRightOf="@+id/imageView_indicator"></ImageView>
+
+                    <View
+                        android:layout_toRightOf="@+id/myImageView"
+                        android:layout_width="0.5dp"
+                        android:layout_height="150dp"
+                        android:background="@color/gray"></View>
+
+                </RelativeLayout>
+                <!--
+                <ImageView
+
+                    android:id="@+id/fleet_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="150dp"
+                    android:minWidth="130dp"
+                    android:scaleType="fitCenter" />
+-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:id="@+id/textView_giftName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                        android:textColor="@color/primary_text"
+                        tools:text="giftName" />
+
+                    <TextView
+                        android:id="@+id/textView_giftDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/secondary_text" />
+
+                    <TextView
+                        android:id="@+id/textView_giftStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:textColor="@color/secondary_text" />
+
+                    <Button
+                        android:id="@+id/button_buyGift"
+                        android:layout_gravity="right|end|bottom"
+                        android:backgroundTint="@color/green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Buy Gift"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
