@@ -7,13 +7,6 @@ import android.net.NetworkInfo;
 
 import com.facebook.stetho.Stetho;
 
-
-//import timber.log.Timber;
-
-/**
- * Created by mostafa.samhoury on 12/17/2016.
- */
-
 public class ApplicationClass extends Application {
 
     private static ApplicationClass mInstance;

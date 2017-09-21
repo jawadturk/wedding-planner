@@ -148,7 +148,7 @@ public class AddNewGiftItemActivity extends BaseActivity {
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            // Write new post
+                            // Write new Gift
                             writeNewGift(title, description, mDownloadUrl, FirebaseAuth.getInstance().getCurrentUser().getUid());
                         }
 
@@ -179,10 +179,9 @@ public class AddNewGiftItemActivity extends BaseActivity {
         }
     }
 
-    // [START write_fan_out]
+
     private void writeNewGift(String title, String description, Uri imageUrl, String userId) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
+        //Create new gift in the database
         String key = mDatabase.child("user-gifts").push().getKey();
         UserGifts gift = new UserGifts(title, description, imageUrl.toString(), userId);
         Map<String, Object> giftValues = gift.toMap();

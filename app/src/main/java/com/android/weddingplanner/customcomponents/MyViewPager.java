@@ -8,9 +8,6 @@ import android.widget.Scroller;
 
 import java.lang.reflect.Field;
 
-/**
- * Created by jawad.turk on 6/14/2016.
- */
 public class MyViewPager extends ViewPager {
 
     public MyViewPager(Context context, AttributeSet attrs) {

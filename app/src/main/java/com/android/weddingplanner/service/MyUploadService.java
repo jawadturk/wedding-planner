@@ -10,8 +10,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.weddingplanner.activities.MainActivity;
 import com.android.weddingplanner.R;
+import com.android.weddingplanner.activities.MainActivityUser;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -154,7 +154,7 @@ public class MyUploadService extends MyBaseTaskService {
         dismissProgressNotification();
 
         // Make Intent to MainActivity
-        Intent intent = new Intent(this, MainActivity.class)
+        Intent intent = new Intent(this, MainActivityUser.class)
                 .putExtra(EXTRA_DOWNLOAD_URL, downloadUrl)
                 .putExtra(EXTRA_FILE_URI, fileUri)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

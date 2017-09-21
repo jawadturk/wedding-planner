@@ -23,8 +23,9 @@ public class VendorsActivity extends AppCompatActivity {
     private LinearLayoutManager mManager;
 
     public static final String EXTRA_VENDOR_CATEGORY_KEY = "vendor_category";
+    public static final String EXTRA_VENDOR_CATEGORY_NAME = "vendor_category_Name";
     private String mVendorCategoryKey;
-
+    private String mVendorCategoryName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class VendorsActivity extends AppCompatActivity {
 
         // Get post key from intent
         mVendorCategoryKey = getIntent().getStringExtra(EXTRA_VENDOR_CATEGORY_KEY);
+        mVendorCategoryName = getIntent().getStringExtra(EXTRA_VENDOR_CATEGORY_NAME);
         if (mVendorCategoryKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA_POST_KEY");
         }
@@ -98,7 +100,7 @@ public class VendorsActivity extends AppCompatActivity {
 
     private void setUpToolBar() {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().setTitle(mVendorCategoryName);
     }
 
     @Override

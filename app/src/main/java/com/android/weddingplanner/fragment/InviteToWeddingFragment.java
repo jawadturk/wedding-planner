@@ -1,24 +1,16 @@
 package com.android.weddingplanner.fragment;
 
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,35 +23,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.android.weddingplanner.R;
-import com.android.weddingplanner.activities.AddBudgetItemActivity;
-import com.android.weddingplanner.activities.VendorsActivity;
-import com.android.weddingplanner.adapter.CollapsingSectionedAdapter;
-import com.android.weddingplanner.helper.BudgetManager;
-import com.android.weddingplanner.helper.DatabaseOps;
-import com.android.weddingplanner.models.BudgetByCategoryItem;
-import com.android.weddingplanner.models.BudgetItem;
+import com.android.weddingplanner.activities.UserProfileActivity;
 import com.android.weddingplanner.models.Invitation;
-import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.User;
-import com.android.weddingplanner.models.Vendors_categories;
 import com.android.weddingplanner.models.WeddingDetails;
-import com.android.weddingplanner.stickyrecyclerheaders.SectionedRecyclerViewAdapter;
 import com.android.weddingplanner.viewholder.UsersViewHolder;
-import com.android.weddingplanner.viewholder.VendorsCategoriesViewHolder;
-import com.android.weddingplanner.viewmodel.BudgetItemView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.DefaultValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.github.mikephil.charting.utils.MPPointF;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,14 +38,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class InviteToWeddingFragment extends Fragment {
@@ -165,7 +131,9 @@ public class InviteToWeddingFragment extends Fragment {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+                        intent.putExtra("userId", userId);
+                        startActivity(intent);
 
                     }
                 });

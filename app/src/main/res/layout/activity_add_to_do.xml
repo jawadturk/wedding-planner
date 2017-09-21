@@ -26,7 +26,7 @@
                 android:layout_height="0dp">
 
 
-                <com.example.avjindersinghsekhon.minimaltodo.CustomTextInputLayout
+                <com.android.weddingplanner.todomodule.CustomTextInputLayout
                     app:hintTextAppearance="@style/FloatingLabelTextAppearance"
                     android:id="@+id/toDoCustomTextInput"
                     android:gravity="center"
@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-                </com.example.avjindersinghsekhon.minimaltodo.CustomTextInputLayout>
+                </com.android.weddingplanner.todomodule.CustomTextInputLayout>
 
             </LinearLayout>
 

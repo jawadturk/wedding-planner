@@ -6,7 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.HashMap;
 import java.util.Map;
 
-// [START blog_user_class]
+
 @IgnoreExtraProperties
 public class User {
 

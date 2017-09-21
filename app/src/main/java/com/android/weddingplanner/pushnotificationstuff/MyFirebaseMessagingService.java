@@ -9,7 +9,6 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.android.weddingplanner.R;
-import com.android.weddingplanner.activities.MainActivity;
 import com.android.weddingplanner.activities.MainActivityUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -21,10 +20,6 @@ import org.json.JSONObject;
 import java.util.Map;
 
 
-/**
- * Created by Ravi Tamada on 08/08/16.
- * www.androidhive.info
- */
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();

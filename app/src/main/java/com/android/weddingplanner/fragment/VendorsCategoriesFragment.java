@@ -66,6 +66,7 @@ public class VendorsCategoriesFragment extends Fragment {
                     public void onClick(View v) {
                         Intent intent = new Intent(getActivity(), VendorsActivity.class);
                         intent.putExtra(VendorsActivity.EXTRA_VENDOR_CATEGORY_KEY, categoryKey);
+                        intent.putExtra(VendorsActivity.EXTRA_VENDOR_CATEGORY_NAME, model.vendorCategoryName);
                         startActivity(intent);
 
                     }

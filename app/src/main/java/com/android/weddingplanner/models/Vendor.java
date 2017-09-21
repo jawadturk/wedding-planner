@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-// [START post_class]
 @IgnoreExtraProperties
 public class Vendor {
 

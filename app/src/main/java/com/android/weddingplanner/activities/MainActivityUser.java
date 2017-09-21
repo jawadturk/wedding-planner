@@ -41,7 +41,7 @@ import com.squareup.picasso.Picasso;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 
 public class MainActivityUser extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener, NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivityUser.class.getSimpleName();
     private DrawerLayout drawer;
     private Toolbar toolbar;
     private NavigationView navigationView;

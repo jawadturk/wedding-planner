@@ -244,8 +244,8 @@ public class AddVendorActivity extends AppCompatActivity {
     }
 
     public Query getQuery(DatabaseReference databaseReference) {
-        Query recentPostsQuery = databaseReference.child("vendors-categories").orderByKey();
-        return recentPostsQuery;
+        Query vendorsCategoriesQuery = databaseReference.child("vendors-categories").orderByKey();
+        return vendorsCategoriesQuery;
     }
 
     private boolean validateForm() {

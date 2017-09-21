@@ -11,10 +11,6 @@ import com.android.weddingplanner.models.BudgetItem;
 import com.android.weddingplanner.stickyrecyclerheaders.StatelessSection;
 
 
-/**
- * Created by jawad.turk on 24-Dec-16.
- */
-
 public class BudgetItemView extends StatelessSection {
 
     public BudgetByCategoryItem budgetItem;

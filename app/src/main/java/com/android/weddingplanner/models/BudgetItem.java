@@ -3,9 +3,6 @@ package com.android.weddingplanner.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by jawad.turk on 12-Sep-17.
- */
 
 public class BudgetItem implements Parcelable {
 

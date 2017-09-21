@@ -6,9 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jawad.turk on 5/12/2016.
- */
+
 public class SpinnerObjectData {
     String id;
     String text = "";

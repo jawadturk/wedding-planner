@@ -2,7 +2,6 @@ package com.android.weddingplanner.models;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-// [START comment_class]
 @IgnoreExtraProperties
 public class Comment {
 

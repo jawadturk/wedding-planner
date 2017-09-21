@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.android.weddingplanner.R;
 import com.android.weddingplanner.helper.GcmManagerManager;
-import com.android.weddingplanner.models.Post;
 import com.android.weddingplanner.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,9 +24,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
