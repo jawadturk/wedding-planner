@@ -172,18 +172,7 @@ public class TodoActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
-//        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-//                .setDefaultFontPath("fonts/Aller_Regular.tff").setFontAttrId(R.attr.fontPath).build());
 
-        //We recover the theme we've set and setTheme accordingly
-        theme = getSharedPreferences(THEME_PREFERENCES, MODE_PRIVATE).getString(THEME_SAVED, LIGHTTHEME);
-
-        if (theme.equals(LIGHTTHEME)) {
-            mTheme = R.style.CustomStyle_LightTheme;
-        } else {
-            mTheme = R.style.CustomStyle_DarkTheme;
-        }
-        this.setTheme(mTheme);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_todo);
@@ -200,9 +189,6 @@ public class TodoActivity extends AppCompatActivity {
         adapter = new BasicListAdapter(mToDoItemsArrayList);
         setAlarms();
 
-
-        final android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
 
         mCoordLayout = (CoordinatorLayout) findViewById(R.id.myCoordinatorLayout);
@@ -221,27 +207,7 @@ public class TodoActivity extends AppCompatActivity {
                 //noinspection ResourceType
 //                String color = getResources().getString(R.color.primary_ligher);
                 newTodo.putExtra(TODOITEM, item);
-//                View decorView = getWindow().getDecorView();
-//                View navView= decorView.findViewById(android.R.id.navigationBarBackground);
-//                View statusView = decorView.findViewById(android.R.id.statusBarBackground);
-//                Pair<View, String> navBar ;
-//                if(navView!=null){
-//                    navBar = Pair.create(navView, navView.getTransitionName());
-//                }
-//                else{
-//                    navBar = null;
-//                }
-//                Pair<View, String> statusBar= Pair.create(statusView, statusView.getTransitionName());
-//                ActivityOptions options;
-//                if(navBar!=null){
-//                    options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, navBar, statusBar);
-//                }
-//                else{
-//                    options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, statusBar);
-//                }
 
-//                startActivity(new Intent(MainActivity.this, TestLayout.class), options.toBundle());
-//                startActivityForResult(newTodo, REQUEST_ID_TODO_ITEM, options.toBundle());
 
                 startActivityForResult(newTodo, REQUEST_ID_TODO_ITEM);
             }
@@ -296,11 +262,7 @@ public class TodoActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+
 
 
     @Override
@@ -499,7 +461,6 @@ public class TodoActivity extends AppCompatActivity {
             ImageView mColorImageView;
             TextView mTimeTextView;
             CheckBox checkBox_markedAsDone;
-//            int color = -1;
 
             public ViewHolder(View v) {
                 super(v);
@@ -515,7 +476,6 @@ public class TodoActivity extends AppCompatActivity {
                 });
                 mToDoTextview = (TextView) v.findViewById(R.id.toDoListItemTextview);
                 mTimeTextView = (TextView) v.findViewById(R.id.todoListItemTimeTextView);
-//                mColorTextView = (TextView)v.findViewById(R.id.toDoColorTextView);
                 mColorImageView = (ImageView) v.findViewById(R.id.toDoListItemColorImageView);
                 checkBox_markedAsDone = (CheckBox) v.findViewById(R.id.checkbox_todoDone);
                 linearLayout = (LinearLayout) v.findViewById(R.id.listItemLinearLayout);
@@ -568,19 +528,10 @@ public class TodoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     private void setUpToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitle("Todo List");
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        getSupportActionBar().setTitle("Todo Lis");
     }
 }
 

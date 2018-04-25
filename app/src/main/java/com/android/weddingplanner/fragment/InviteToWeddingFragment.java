@@ -157,11 +157,10 @@ public class InviteToWeddingFragment extends Fragment {
     }
 
     public Query getQuery(DatabaseReference databaseReference) {
-        // [START recent_posts_query]
-        // Last 100 posts, these are automatically the 100 most recent
-        // due to sorting by push() keys
+
+        //fetch users
         Query recentPostsQuery = databaseReference.child("users");
-        // [END recent_posts_query]
+
 
         return recentPostsQuery;
     }
@@ -203,7 +202,7 @@ public class InviteToWeddingFragment extends Fragment {
 
     private void sendFCMPush(Invitation invitation, String receiverKey) {
 
-        final String Legacy_SERVER_KEY = "AIzaSyCZ0c2vwCxLul2bGkQCLSsZQns4sT4ECp8";
+        final String Legacy_SERVER_KEY = "AAAA8IhBP0o:APA91bG7a6D62ewGLGG1mz2JNLHHcvrtPthGMmn-jaqAnPDaN7ROR77fg31isF710CVqpg6qDyw7pnK7_4DN-XklmYSMPy2uYzrFIfA5iNzmEF9oEaI0ycruzYQgKhANCNpJbVOjEVdC";
         String msg = invitation.senderIdentity + " would like to invite you to the wedding of "
                 + invitation.weddingDetails.groomName + " and " + invitation.weddingDetails.brideName
                 + " in " + invitation.weddingDetails.weddingLocation + " at " + invitation.weddingDetails.weddingtime;

@@ -58,6 +58,7 @@ public class AddVendorActivity extends AppCompatActivity {
     private EditText editText_vendorName;
     private EditText ediText_vendorDetails;
     private EditText ediText_vendorPlace;
+    private EditText editText_vendorZipCode;
     private ProgressBar progressBar;
     private Button button_save;
     String vendorCategoryId;
@@ -128,6 +129,7 @@ public class AddVendorActivity extends AppCompatActivity {
         ediText_vendorDetails = (EditText) findViewById(R.id.field_vendorDetails);
         editText_vendorName = (EditText) findViewById(R.id.field_vendorName);
         ediText_vendorPlace = (EditText) findViewById(R.id.field_vendorPlace);
+        editText_vendorZipCode = (EditText) findViewById(R.id.field_vendorZipCode);
         progressBar = (ProgressBar) findViewById(R.id.progressBar_saving);
         button_save = (Button) findViewById(R.id.button_save);
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -143,8 +145,10 @@ public class AddVendorActivity extends AppCompatActivity {
                         vendor.vendorDescription = ediText_vendorDetails.getText().toString();
                         vendor.vendorName = editText_vendorName.getText().toString();
                         vendor.vendorPlace = ediText_vendorPlace.getText().toString();
+                        vendor.vendorZipCode=editText_vendorZipCode.getText().toString();
                         vendor.vendorPhotos = uploadedImagesUrls;
                         vendor.vendorCategoryId = vendorCategoryId;
+                        vendor.vendorCategoryId_zipCode=vendorCategoryId+"_"+editText_vendorZipCode.getText().toString();
                         writeNewVendorToDataBase(vendor);
                     }
 
@@ -270,6 +274,13 @@ public class AddVendorActivity extends AppCompatActivity {
             ediText_vendorPlace.setError(null);
         }
 
+        if (TextUtils.isEmpty(editText_vendorZipCode.getText().toString())) {
+            editText_vendorZipCode.setError("Required");
+            result = false;
+        } else {
+            editText_vendorZipCode.setError(null);
+        }
+
         if (TextUtils.isEmpty(vendorCategoryId)) {
             spinner.setError("Required");
             result = false;
@@ -311,6 +322,8 @@ public class AddVendorActivity extends AppCompatActivity {
             vendor.vendorDescription = ediText_vendorDetails.getText().toString();
             vendor.vendorName = editText_vendorName.getText().toString();
             vendor.vendorPlace = ediText_vendorPlace.getText().toString();
+            vendor.vendorZipCode=editText_vendorZipCode.getText().toString();
+            vendor.vendorCategoryId_zipCode=vendorCategoryId+"_"+editText_vendorZipCode.getText().toString().trim();
             vendor.vendorPhotos = uploadedImagesUrls;
             vendor.vendorCategoryId = vendorCategoryId;
             writeNewVendorToDataBase(vendor);

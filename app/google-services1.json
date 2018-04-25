@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1033078128458",
-    "firebase_url": "https://burning-fire-892.firebaseio.com",
-    "project_id": "burning-fire-892",
-    "storage_bucket": "burning-fire-892.appspot.com"
+    "project_number": "777519126821",
+    "firebase_url": "https://wedding-planner-7b6b4.firebaseio.com",
+    "project_id": "wedding-planner-7b6b4",
+    "storage_bucket": "wedding-planner-7b6b4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1033078128458:android:79a4c808e60c3ba9",
+        "mobilesdk_app_id": "1:777519126821:android:79a4c808e60c3ba9",
         "android_client_info": {
           "package_name": "com.android.weddingplanner"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1033078128458-di3e2f8atk83u1ifp0mshnum7essbj0u.apps.googleusercontent.com",
+          "client_id": "777519126821-62mh28qjqge3rase6pdpja8e1v1i6t9t.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxsqKnjOv0clAYogaF5aaknxBgRL4lmAA"
+          "current_key": "AIzaSyD46R6TLneQtq0BCi1WY3RDGksyTYDlW9c"
         }
       ],
       "services": {

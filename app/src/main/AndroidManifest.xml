@@ -34,7 +34,9 @@
         <activity
             android:name=".activities.AddVendorActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activities.VendorsActivity" />
+        <activity android:name=".activities.VendorsActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            />
         <activity
             android:name=".activities.VendorDetailsAvtivity"
             android:theme="@style/AppTheme.NoActionBar2" />

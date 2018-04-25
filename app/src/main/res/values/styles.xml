@@ -63,7 +63,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!--color of thumb when inactive-->
-        <item name="colorSwitchThumbNormal">@color/grey300</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
         <!--Inactive track color-->
         <item name="android:colorForeground">@color/grey600</item>
     </style>
@@ -104,7 +104,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         color of thumb when inactive
-        <item name="colorSwitchThumbNormal">@color/grey300</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
         <!--Inactive track color-->
         <item name="android:colorForeground">@color/grey600</item>
 

@@ -27,6 +27,7 @@
             android:layout_alignTop="@+id/imageView_categoryImage"
             android:layout_alignBottom="@+id/imageView_categoryImage"
             android:elevation="1dp"
+            android:visibility="gone"
             ></View>
 
      <ImageView

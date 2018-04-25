@@ -26,6 +26,7 @@
     <string name="hint_vendor_category">Vendor Category</string>
     <string name="text_save">Save</string>
     <string name="hint_vendor_place">Vendor Place</string>
+    <string name="hint_vendor_zip">Zip Code</string>
     <string name="read_more">Read More</string>
     <string name="readLess">Read Less</string>
     <string name="title_section1">Vendors</string>

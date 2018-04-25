@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".activities.MainActivity"
+    android:orientation="vertical"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="5"
+    >
+    <EditText
+        android:id="@+id/editText_zipCode"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:background="@drawable/rectangular_back_ground"
+        android:layout_margin="5dp"
+    android:hint="Enter Zip Code"
+        android:paddingLeft="10dp"
+        android:maxLength="5"
+        />
+    <Button
+        android:id="@+id/button_searchZipCode"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Search"
+        android:textAllCaps="false"
+        android:theme="@style/button_style"
+        />
 
+</LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_vendors"
         android:layout_width="match_parent"
@@ -12,6 +41,8 @@
         android:layout_alignParentTop="true"
         android:clipToPadding="false"
         android:scrollbars="vertical"
-        tools:listitem="@layout/vendor_row_item" />
+        tools:listitem="@layout/vendor_row_item"
 
-</FrameLayout>
+        />
+
+</LinearLayout>

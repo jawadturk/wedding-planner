@@ -13,24 +13,27 @@ public class Vendor {
     public String vendorId;
     public String vendorName;
     public String vendorDescription;
+    public String vendorZipCode;
     public ArrayList<String> vendorPhotos = new ArrayList<>();
     public String vendorPlace;
     public boolean isFavorite = false;
     public int vendorReviewsNumber = 0;
     public double vendorRating = 0.0;
     public String vendorCategoryId;
+    public String vendorCategoryId_zipCode;
 
     public Vendor() {
-        // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Vendor(String vendorId, String vendorName, String vendorDescription, String vendorPlace, String vendorCategoryId, ArrayList<String> imagesLinks) {
+    public Vendor(String vendorId, String vendorName, String vendorDescription, String vendorPlace, String vendorCategoryId,String vendorZipCode, ArrayList<String> imagesLinks) {
         this.vendorId = vendorId;
         this.vendorName = vendorName;
         this.vendorDescription = vendorDescription;
         this.vendorPhotos = imagesLinks;
         this.vendorPlace = vendorPlace;
         this.vendorCategoryId = vendorCategoryId;
+        this.vendorZipCode=vendorZipCode;
+        this.vendorCategoryId_zipCode=vendorCategoryId+"_"+vendorZipCode;
     }
 
     // [START post_to_map]
@@ -45,6 +48,8 @@ public class Vendor {
         result.put("vendorReviewsNumber", vendorReviewsNumber);
         result.put("vendorRating", vendorRating);
         result.put("vendorCategoryId", vendorCategoryId);
+        result.put("vendorZipCode",vendorZipCode);
+        result.put("vendorCategoryId_zipCode",vendorCategoryId+"_"+vendorZipCode);
 
 
         return result;

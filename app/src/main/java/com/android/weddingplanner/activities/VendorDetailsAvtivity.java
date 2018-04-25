@@ -282,7 +282,11 @@ public class VendorDetailsAvtivity extends AppCompatActivity implements ViewPage
             pager_indicator.addView(dots[i], params);
         }
 
-        dots[0].setImageDrawable(ContextCompat.getDrawable(VendorDetailsAvtivity.this, R.drawable.selecteditem_dot));
+        if (dots.length>0)
+        {
+            dots[0].setImageDrawable(ContextCompat.getDrawable(VendorDetailsAvtivity.this, R.drawable.selecteditem_dot));
+
+        }
     }
 
     @Override

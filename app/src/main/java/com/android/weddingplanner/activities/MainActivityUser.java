@@ -2,6 +2,8 @@ package com.android.weddingplanner.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -66,7 +68,12 @@ public class MainActivityUser extends AppCompatActivity implements FragmentManag
     @Override
     protected void onResume() {
         super.onResume();
-        fetchUserProfile();
+
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fetchUserProfile();            }
+        }, 2000);
     }
 
     private void setUpViews() {
